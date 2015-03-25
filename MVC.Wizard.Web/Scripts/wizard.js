@@ -1,4 +1,11 @@
-﻿(function ($) {
+﻿(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['jquery', 'knockout', 'knockout-mapping', 'jquery-validate'], factory);
+    } else {
+        factory(jQuery, ko);
+    }
+}(function ($, ko, mapping) {
+    ko.mapping = mapping;
     $.fn.Wizard = function (options) {
 
         // Append ul with error messages in li that are not for a specific property
@@ -143,4 +150,4 @@
 
         return this;
     };
-}(jQuery));
+}));
