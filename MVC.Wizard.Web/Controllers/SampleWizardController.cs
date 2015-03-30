@@ -7,9 +7,8 @@ using MVC.Wizard.Web.ViewModels;
 
 namespace MVC.Wizard.Web.Controllers
 {
-    public class SampleWizardController : WizardController
+    public class SampleWizardController : WizardController<SampleWizardViewModel>
     {
-
         public ActionResult Sample()
         {
             //InitializeWizard();
@@ -18,25 +17,16 @@ namespace MVC.Wizard.Web.Controllers
             return View(vm);
         }
 
-        protected override void ProcessToNext(Wizard.ViewModels.WizardViewModel model)
+        //protected override void ProcessToNext(Wizard.ViewModels.WizardViewModel model)
+        protected override void ProcessToNext(SampleWizardViewModel model)
         {
             // Do here some custom things if you navigate to the next step.
-
-            if (model.GetType() == typeof(SampleWizardViewModel))
-            {
-                // Check the type so you could use multiple wizards in one controller.
-            }
         }
 
-        protected override void ProcessToPrevious(Wizard.ViewModels.WizardViewModel model)
+        //protected override void ProcessToPrevious(Wizard.ViewModels.WizardViewModel model)
+        protected override void ProcessToPrevious(SampleWizardViewModel model)
         {
             // Do here some custom things if you navigate to the next step.
-
-            if (model.GetType() == typeof(SampleWizardViewModel))
-            {
-                // Check the type so you could use multiple wizards in one controller.
-            }
         }
-
     }
 }

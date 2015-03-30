@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using MVC.Wizard.ModelBinders;
+//using MVC.Wizard.ModelBinders;
 using MVC.Wizard.ViewModels;
 
 namespace MVC.Wizard.Controllers
 {
-    public class WizardController : Controller
+    public class WizardController<T> : Controller where T : WizardViewModel
     {
 
         #region Properties
@@ -42,7 +42,8 @@ namespace MVC.Wizard.Controllers
         //}
 
         [HttpPost]
-        public virtual JsonResult UpdateWizardStep([ModelBinder(typeof(WizardModelBinder))]WizardViewModel model)
+        //public virtual JsonResult UpdateWizardStep([ModelBinder(typeof(WizardModelBinder))]WizardViewModel model)
+        public virtual JsonResult UpdateWizardStep(T model)
         {
             //var state = ViewModelSessionState;
             //model.SetStepIndex(state != null ? state.StepIndex : 1);
@@ -55,7 +56,8 @@ namespace MVC.Wizard.Controllers
         }
 
         [HttpPost]
-        public virtual JsonResult PreviousWizardStep([ModelBinder(typeof(WizardModelBinder))]WizardViewModel model)
+        //public virtual JsonResult PreviousWizardStep([ModelBinder(typeof(WizardModelBinder))]WizardViewModel model)
+        public virtual JsonResult PreviousWizardStep(T model)
         {
             //var state = ViewModelSessionState;
             //model.SetStepIndex(state != null ? state.StepIndex : 1);
@@ -69,7 +71,8 @@ namespace MVC.Wizard.Controllers
         }
 
         [HttpPost]
-        public virtual JsonResult NextWizardStep([ModelBinder(typeof(WizardModelBinder))]WizardViewModel model)
+        //public virtual JsonResult NextWizardStep([ModelBinder(typeof(WizardModelBinder))]WizardViewModel model)
+        public virtual JsonResult NextWizardStep(T model)
         {
             //var state = ViewModelSessionState;
             //model.SetStepIndex(state != null ? state.StepIndex : 1);
@@ -107,26 +110,29 @@ namespace MVC.Wizard.Controllers
             }
         }
 
-        protected virtual void ProcessToUpdate(WizardViewModel model)
+        protected virtual void ProcessToUpdate(T model)
+        //protected virtual void ProcessToUpdate<T>(T model) where T : WizardViewModel
         {
         }
 
-        protected virtual void ProcessToPrevious(WizardViewModel model)
+        protected virtual void ProcessToPrevious(T model)
+        //protected virtual void ProcessToPrevious<T>(T model) where T : WizardViewModel
         {
         }
 
-        protected virtual void ProcessToNext(WizardViewModel model)
+        protected virtual void ProcessToNext(T model)
+        //protected virtual void ProcessToNext<T>(T model) where T : WizardViewModel
         {
         }
 
-        protected virtual List<WizardValidationResult> ValidationRules(WizardViewModel baseModel)
-        {
-            return new List<WizardValidationResult>();
-        }
+        //protected virtual List<WizardValidationResult> ValidationRules(WizardViewModel baseModel)
+        //{
+        //    return new List<WizardValidationResult>();
+        //}
 
-        private bool Validate(ModelStateDictionary modelStateDict, WizardViewModel stepModel)
+        private bool Validate(ModelStateDictionary modelStateDict, WizardViewModel viewModel)
         {
-            stepModel.Errors = new List<WizardValidationResult>();
+            viewModel.Errors = new List<WizardValidationResult>();
 
             if (!modelStateDict.IsValid)
             {
@@ -135,7 +141,7 @@ namespace MVC.Wizard.Controllers
                 {
                     if (modelState.Value.Errors.Any())
                     {
-                        stepModel.Errors.Add(new WizardValidationResult { MemberName = modelState.Key, Message = modelState.Value.Errors[0].ErrorMessage });
+                        viewModel.Errors.Add(new WizardValidationResult { MemberName = modelState.Key, Message = modelState.Value.Errors[0].ErrorMessage });
                     }
                 }
             }

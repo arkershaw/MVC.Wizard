@@ -51,10 +51,10 @@ namespace MVC.Wizard.ViewModels
         /// <value>The type of the wizard so the custom modelbinding knows what kind of object there is posted to the server.
         /// Just return the Type of the class of your ViewModel like this: return GetType().ToString();
         /// </value>
-        public virtual string WizardType
-        {
-            get { return GetType().ToString(); }
-        }
+        //public virtual string WizardType
+        //{
+        //    get { return GetType().ToString(); }
+        //}
 
         //public string Sender { get; set; }
 
