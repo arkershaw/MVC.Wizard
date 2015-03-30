@@ -2,10 +2,12 @@
     if (typeof define === 'function' && define.amd) {
         define(['jquery', 'knockout', 'knockout-mapping', 'jquery-validate'], factory);
     } else {
-        factory(jQuery, ko);
+        factory(jQuery, ko, ko.mapping);
     }
 }(function ($, ko, mapping) {
+    if (ko.mapping === undefined)
     ko.mapping = mapping;
+
     $.fn.Wizard = function (options) {
 
         // Append ul with error messages in li that are not for a specific property
@@ -92,15 +94,15 @@
 
                 if ($(element).closest("form").valid()) {
                     if (self.UpdateOnChange) {
-                        self.RoundTrip("UpdateWizardStep", $(element).data("sender"));
+                        self.RoundTrip("UpdateWizardStep");//, $(element).data("sender"));
                     }
                 } else {
                     validator.focusInvalid();
                 }
             }
 
-            self.RoundTrip = function (action, sender) {
-                self.Model.Sender(sender);
+            self.RoundTrip = function (action) {//, sender) {
+                //self.Model.Sender(sender);
 
                 $.ajax({
                     url: options.url + action,

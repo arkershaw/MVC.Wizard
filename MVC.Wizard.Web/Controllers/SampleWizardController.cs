@@ -12,7 +12,7 @@ namespace MVC.Wizard.Web.Controllers
 
         public ActionResult Sample()
         {
-            InitializeWizard();
+            //InitializeWizard();
             var vm = new SampleWizardViewModel("This is just some demo text to indicate that you can use startup data.");
 
             return View(vm);

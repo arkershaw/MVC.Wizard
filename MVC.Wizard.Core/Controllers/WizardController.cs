@@ -13,11 +13,11 @@ namespace MVC.Wizard.Controllers
 
         #region Properties
 
-        public WizardViewModel ViewModelSessionState
-        {
-            get { return Session[typeof(WizardViewModel).Name] as WizardViewModel; }
-            set { Session[typeof(WizardViewModel).Name] = value; }
-        }
+        //public WizardViewModel ViewModelSessionState
+        //{
+        //    get { return Session[typeof(WizardViewModel).Name] as WizardViewModel; }
+        //    set { Session[typeof(WizardViewModel).Name] = value; }
+        //}
 
         #endregion
 
@@ -36,49 +36,49 @@ namespace MVC.Wizard.Controllers
         //    return View(model);
         //}
 
-        public void InitializeWizard()
-        {
-            ViewModelSessionState = null;
-        }
+        //public void InitializeWizard()
+        //{
+        //    ViewModelSessionState = null;
+        //}
 
         [HttpPost]
         public virtual JsonResult UpdateWizardStep([ModelBinder(typeof(WizardModelBinder))]WizardViewModel model)
         {
-            var state = ViewModelSessionState;
-            model.SetStepIndex(state != null ? state.StepIndex : 1);
+            //var state = ViewModelSessionState;
+            //model.SetStepIndex(state != null ? state.StepIndex : 1);
             RemoveValidationRulesFromOtherSteps(model);
 
             Validate(ModelState, model);
             ProcessToUpdate(model);
-            ViewModelSessionState = model;
+            //ViewModelSessionState = model;
             return Json(model);
         }
 
         [HttpPost]
         public virtual JsonResult PreviousWizardStep([ModelBinder(typeof(WizardModelBinder))]WizardViewModel model)
         {
-            var state = ViewModelSessionState;
-            model.SetStepIndex(state != null ? state.StepIndex : 1);
+            //var state = ViewModelSessionState;
+            //model.SetStepIndex(state != null ? state.StepIndex : 1);
             ModelState.Clear();
             model.Errors = null;
-            model.stepIndex--;
+            model.StepIndex--;
             ProcessToPrevious(model);
 
-            ViewModelSessionState = model;
+            //ViewModelSessionState = model;
             return Json(model);
         }
 
         [HttpPost]
         public virtual JsonResult NextWizardStep([ModelBinder(typeof(WizardModelBinder))]WizardViewModel model)
         {
-            var state = ViewModelSessionState;
-            model.SetStepIndex(state != null ? state.StepIndex : 1);
+            //var state = ViewModelSessionState;
+            //model.SetStepIndex(state != null ? state.StepIndex : 1);
             RemoveValidationRulesFromOtherSteps(model);
 
             if (Validate(ModelState, model))
             {
                 model.Errors = null;
-                model.stepIndex++;
+                model.StepIndex++;
 
                 try
                 {
@@ -87,7 +87,7 @@ namespace MVC.Wizard.Controllers
                 catch (ValidationException valEx)
                 {
                     // Catch custom exceptions so decrease the stepindex
-                    model.stepIndex--;
+                    model.StepIndex--;
 
                     // Return the errors to the client
                     model.Errors = new List<WizardValidationResult>();                    
@@ -95,7 +95,7 @@ namespace MVC.Wizard.Controllers
                 }
             }
 
-            ViewModelSessionState = model;
+            //ViewModelSessionState = model;
             return Json(model);
         }
 

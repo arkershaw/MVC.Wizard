@@ -7,7 +7,7 @@ namespace MVC.Wizard.ViewModels
     [Serializable]
     public class WizardViewModel
     {
-        internal int stepIndex = 1;
+        //internal int stepIndex = 1;
         private readonly int numberOfSteps = 1;
 
         /// <summary>
@@ -15,14 +15,14 @@ namespace MVC.Wizard.ViewModels
         /// </summary>
         public WizardViewModel()
         {
-
+            StepIndex = 1;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WizardViewModel"/> class.
         /// </summary>
         /// <param name="numberOfSteps">The number of steps in this wizard.</param>
-        public WizardViewModel(int numberOfSteps)
+        public WizardViewModel(int numberOfSteps) : this()
         {
             this.numberOfSteps = numberOfSteps;
         }
@@ -31,13 +31,7 @@ namespace MVC.Wizard.ViewModels
         /// Gets the step index of the wizard.
         /// </summary>
         /// <value>The index of the step.</value>
-        public int StepIndex
-        {
-            get
-            {
-                return stepIndex;
-            }
-        }
+        public int StepIndex { get; set; }
 
         /// <summary>
         /// Gets the number of steps in the wizard.
@@ -62,7 +56,7 @@ namespace MVC.Wizard.ViewModels
             get { return GetType().ToString(); }
         }
 
-        public string Sender { get; set; }
+        //public string Sender { get; set; }
 
         /// <summary>
         /// Gets the errors of the current step.
@@ -74,10 +68,10 @@ namespace MVC.Wizard.ViewModels
         /// Sets the step index of the stap.
         /// </summary>
         /// <param name="index">The index to set.</param>
-        internal void SetStepIndex(int index)
-        {
-            stepIndex = index;
-        }
+        //internal void SetStepIndex(int index)
+        //{
+        //    stepIndex = index;
+        //}
 
     }
 }
