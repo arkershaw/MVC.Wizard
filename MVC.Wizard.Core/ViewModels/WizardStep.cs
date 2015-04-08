@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MVC.Wizard.Web.ViewModels
+namespace MVC.Wizard.ViewModels
 {
     public class WizardStep
     {
-
         /// <summary>
         /// Gets a value indicating whether client validation is enabled.
         /// This must be set to true if:

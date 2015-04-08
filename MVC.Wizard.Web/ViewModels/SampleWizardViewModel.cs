@@ -8,11 +8,7 @@ namespace MVC.Wizard.Web.ViewModels
 {
     public class SampleWizardViewModel : WizardViewModel
     {    
-
-        private const int numberOfSteps = 6;
-
         public SampleWizardViewModel()
-            : base(numberOfSteps)
         {
             Step1 = new SampleWizardViewModelStep1();
             Step2 = new SampleWizardViewModelStep2();
@@ -28,47 +24,42 @@ namespace MVC.Wizard.Web.ViewModels
             Step1.InitialWizardValue = initialWizardValue;
         }
 
-        [Display(Name = "Custom title for step 1")]
+        [WizardStep(), Display(Name = "Custom title for step 1")]
         public SampleWizardViewModelStep1 Step1 { get; set; }
 
-        [Display(Name = "Custom title for step 2")]
+        [WizardStep(), Display(Name = "Custom title for step 2")]
         public SampleWizardViewModelStep2 Step2 { get; set; }
 
-        [Display(Name = "Custom title for step 3")]
+        [WizardStep(), Display(Name = "Custom title for step 3")]
         public SampleWizardViewModelStep3 Step3 { get; set; }
 
-        [Display(Name = "Custom title for step 4")]
+        [WizardStep(), Display(Name = "Custom title for step 4")]
         public SampleWizardViewModelStep4 Step4 { get; set; }
 
-        [Display(Name = "Custom title for step 5")]
+        [WizardStep(), Display(Name = "Custom title for step 5")]
         public SampleWizardViewModelStep5 Step5 { get; set; }
 
-        [Display(Name = "Custom title for step 6")]
+        [WizardStep(), Display(Name = "Custom title for step 6")]
         public SampleWizardViewModelStep6 Step6 { get; set; }
 
     }
     
     public class SampleWizardViewModelStep1 : WizardStep
     {
-
         [Required]
         public string InitialWizardValue { get; set; }
-
     }
 
     public class SampleWizardViewModelStep2 : WizardStep
     {
-
         [Required]
         public int? Required { get; set; }
 
         public string NotRequired { get; set; }
-
     }
 
     public class SampleWizardViewModelStep3 : WizardStep
     {
-
         [Required]
         public int? RequiredDirectUpdate { get; set; }
 
@@ -77,12 +68,10 @@ namespace MVC.Wizard.Web.ViewModels
 
         [StringLength(3)]
         public string StringLengthDirectUpdate { get; set; }
-
     }
 
     public class SampleWizardViewModelStep4 : WizardStep, IValidatableObject
     {
-
         [Required]
         public int? RequiredNoClientValidation { get; set; }
 
@@ -117,12 +106,10 @@ namespace MVC.Wizard.Web.ViewModels
 
             return results;
         }
-
     }
 
     public class SampleWizardViewModelStep5 : WizardStep, IValidatableObject
     {
-
         [Required]
         public bool IAgree { get; set; }
 
@@ -141,11 +128,7 @@ namespace MVC.Wizard.Web.ViewModels
 
             return results;
         }
-
     }
 
-    public class SampleWizardViewModelStep6 : WizardStep
-    {
-
-    }
+    public class SampleWizardViewModelStep6 : WizardStep { }
 }

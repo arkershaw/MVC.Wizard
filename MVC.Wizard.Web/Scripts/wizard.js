@@ -68,7 +68,8 @@
             });
 
             self.Model.CurrentStep = ko.computed(function () {
-                return eval("self.Model.Step" + self.Model.StepIndex());
+                //return eval("self.Model.Step" + self.Model.StepIndex());
+                return eval("self.Model." + self.Model.Steps()[self.Model.StepIndex() - 1]);
             });
 
             self.Model.Update = function (element) {
