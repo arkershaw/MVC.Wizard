@@ -16,14 +16,23 @@ namespace MVC.Wizard.Web.Controllers
             return View(vm);
         }
 
-        protected override async Task ProcessToNext(SampleWizardViewModel model)
+        protected override async Task UpdateCurrentWizardStep(SampleWizardViewModel model)
         {
-            // Do here some custom things if you navigate to the next step.
+            // Custom code when the current step is updated
         }
 
-        protected override async Task ProcessToPrevious(SampleWizardViewModel model)
+        protected override async Task MoveToNextWizardStep(SampleWizardViewModel model)
         {
-            // Do here some custom things if you navigate to the next step.
+            // Custom code on moving to the next step
+            if (model.StepIndex == 2)
+            {
+                model.Step2.Dynamic = "Dynamic";
+            }
+        }
+
+        protected override async Task MoveToPreviousWizardStep(SampleWizardViewModel model)
+        {
+            // Custom code on moving to the previous step
         }
     }
 }

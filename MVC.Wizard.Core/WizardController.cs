@@ -11,31 +11,31 @@ namespace MVC.Wizard.Controllers
     public class WizardController<T> : Controller where T : WizardViewModel
     {
         [HttpPost]
-        public virtual async Task<ActionResult> UpdateWizardStep(T model)
+        public async Task<ActionResult> UpdateWizardStep(T model)
         {
             RemoveValidationRulesFromOtherSteps(model);
 
             Validate(ModelState, model);
 
-            await ProcessToUpdate(model);
+            await UpdateCurrentWizardStep(model);
 
             return Json(model);
         }
 
         [HttpPost]
-        public virtual async Task<ActionResult> PreviousWizardStep(T model)
+        public async Task<ActionResult> PreviousWizardStep(T model)
         {
             ModelState.Clear();
             model.Errors = null;
             model.StepIndex--;
 
-            await ProcessToPrevious(model);
+            await MoveToPreviousWizardStep(model);
 
             return Json(model);
         }
 
         [HttpPost]
-        public async virtual Task<ActionResult> NextWizardStep(T model)
+        public async Task<ActionResult> NextWizardStep(T model)
         {
             RemoveValidationRulesFromOtherSteps(model);
 
@@ -46,7 +46,7 @@ namespace MVC.Wizard.Controllers
 
                 try
                 {
-                    await ProcessToNext(model);
+                    await MoveToNextWizardStep(model);
                 }
                 catch (ValidationException valEx)
                 {
@@ -75,15 +75,15 @@ namespace MVC.Wizard.Controllers
             }
         }
 
-        protected async virtual Task ProcessToUpdate(T model)
+        protected async virtual Task UpdateCurrentWizardStep(T model)
         {
         }
 
-        protected async virtual Task ProcessToPrevious(T model)
+        protected async virtual Task MoveToPreviousWizardStep(T model)
         {
         }
 
-        protected async virtual Task ProcessToNext(T model)
+        protected async virtual Task MoveToNextWizardStep(T model)
         {
         }
 

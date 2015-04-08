@@ -56,6 +56,13 @@ namespace MVC.Wizard.Web.ViewModels
         public int? Required { get; set; }
 
         public string NotRequired { get; set; }
+
+        public string Dynamic { get; set; }
+
+        public SampleWizardViewModelStep2()
+        {
+            Dynamic = "Static";
+        }
     }
 
     public class SampleWizardViewModelStep3 : WizardStep

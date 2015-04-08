@@ -67,6 +67,14 @@
                     </div>
 
                     <div class="form-group">
+                        @Html.LabelFor(model => model.Step2.Dynamic, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Step2.Dynamic, new { data_bind = "value: Model.Step2.Dynamic" })
+                            @Html.ValidationMessageFor(model => model.Step2.Dynamic)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input data-bind="event: { click: Previous }" type="submit" value="Previous" class="btn btn-default" />
                             <input data-bind="event: { click: Next.bind($data, $element) }" type="submit" value="Next" class="btn btn-default" />

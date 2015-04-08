@@ -84,7 +84,8 @@
 
                 if ($(element).closest("form").valid()) {
                     self.RoundTrip("NextWizardStep");
-                } else {
+                }
+                else {
                     validator.focusInvalid();
                 }
             }
@@ -100,7 +101,8 @@
                     if (self.UpdateOnChange) {
                         self.RoundTrip("UpdateWizardStep");
                     }
-                } else {
+                }
+                else {
                     validator.focusInvalid();
                 }
             }
