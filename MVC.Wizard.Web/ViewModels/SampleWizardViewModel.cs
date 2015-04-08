@@ -57,6 +57,9 @@ namespace MVC.Wizard.Web.ViewModels
 
         public string NotRequired { get; set; }
 
+        [Required, StringLength(3, MinimumLength=2)]
+        public string StringLength { get; set; }
+
         public string Dynamic { get; set; }
 
         public SampleWizardViewModelStep2()

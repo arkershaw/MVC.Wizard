@@ -6,39 +6,57 @@
     }
 }(function ($, ko, mapping) {
     if (ko.mapping === undefined)
-    ko.mapping = mapping;
+        ko.mapping = mapping;
+
+    ko.bindingHandlers.wizardStep = {
+        init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var stepIndex = ko.unwrap(valueAccessor());
+            var model = bindingContext.$data.Model;
+
+            var step = eval('model.' + model.StepNames()[stepIndex - 1]);
+
+            if (!step.EnableClientValidation())
+                $(element).find(':input').attr('data-val', 'false');
+
+            if (stepIndex == model.StepNames().length)
+            {
+                var form = $(element).closest('form');
+                form.removeData('validator');
+                form.removeData('unobtrusiveValidation');
+                $.validator.unobtrusive.parse(form);
+            }
+        },
+
+        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var stepIndex = ko.unwrap(valueAccessor());
+            var model = bindingContext.$data.Model;
+
+            if (stepIndex == model.StepIndex())
+                $(element).show();
+            else
+                $(element).hide();
+
+            if (!model.CurrentStep().EnableClientValidation()) {
+                var form = $(element).closest('form');
+                var validator = form.validate();
+                form.find('.field-validation-error span').each(function () {
+                    validator.settings.success($(this));
+                });
+                validator.resetForm();
+            }
+        }
+    };
 
     $.fn.Wizard = function (options) {
 
         // Append ul with error messages in li that are not for a specific property
-        this.find(".wizard-errors-summary").append('<ul data-bind="foreach: Model.GeneralErrors, visible: Model.GeneralErrors().length > 0"><li data-bind="text: Message"></li></ul>');
-
-        //Set the form of the current wizard
-        var $form = $("#" + options.formId);
-
-        //Disable the client validation for a specific form
-        function DisableClientValidation($form) {
-            ($form).validate().settings.ignore = "*";
-        }
-
-        //Enable the client validation for a specific form
-        function EnableClientValidation($form) {
-            ($form).validate().settings.ignore = ":hidden";
-        }
-
-        //Enable or disable client validation
-        function SetClientValidation(enableClientValidation) {
-            if (enableClientValidation)
-                EnableClientValidation($form);
-            else
-                DisableClientValidation($form);
-        }
+        this.find('.wizard-errors-summary').append('<ul data-bind="foreach: Model.GeneralErrors, visible: Model.GeneralErrors().length > 0"><li data-bind="text: Message"></li></ul>');
 
         function SetServerErrors(errorsList) {
             // Check if client side validation is enabled and if we have errors
             if (errorsList) {
                 // Get the validator from the form
-                var validator = $form.validate();
+                var validator = $("#" + options.formId).validate();
 
                 // Remove old errors
                 validator.resetForm();
@@ -68,11 +86,11 @@
             });
 
             self.Model.CurrentStep = ko.computed(function () {
-                return eval("self.Model." + self.Model.Steps()[self.Model.StepIndex() - 1]);
+                return eval('self.Model.' + self.Model.StepNames()[self.Model.StepIndex() - 1]);
             });
 
             self.Model.TotalSteps = ko.computed(function () {
-                return self.Model.Steps().length;
+                return self.Model.StepNames().length;
             });
 
             self.Model.Update = function (element) {
@@ -80,10 +98,10 @@
             }
 
             self.Next = function (element) {
-                var validator = $(element).closest("form").validate();
+                var validator = $(element).closest('form').validate();
 
-                if ($(element).closest("form").valid()) {
-                    self.RoundTrip("NextWizardStep");
+                if ($(element).closest('form').valid()) {
+                    self.RoundTrip('NextWizardStep');
                 }
                 else {
                     validator.focusInvalid();
@@ -91,16 +109,16 @@
             }
 
             self.Previous = function () {
-                self.RoundTrip("PreviousWizardStep");
+                self.RoundTrip('PreviousWizardStep');
             }
 
             self.Update = function (element) {
-                var validator = $(element).closest("form").validate();
+                var validator = $(element).closest('form').validate();
 
-                if ($(element).closest("form").valid()) {
-                    if (self.UpdateOnChange) {
-                        self.RoundTrip("UpdateWizardStep");
-                    }
+                if ($(element).closest('form').valid()) {
+                    //if (self.UpdateOnChange) {
+                    //    self.RoundTrip("UpdateWizardStep");
+                    //}
                 }
                 else {
                     validator.focusInvalid();
@@ -115,31 +133,16 @@
                     contentType: 'application/json',
                     data: ko.toJSON(self.Model),
                     success: function (data) {
-                        self.UpdateOnChange = false;
+                        //self.UpdateOnChange = false;
                         ko.mapping.fromJS(data, self.Model);
-                        self.UpdateOnChange = true;
+                        //self.UpdateOnChange = true;
 
                         SetServerErrors(data.Errors);
-                        SetClientValidation(self.Model.CurrentStep().EnableClientValidation());
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
 
                     }
                 });
-            }
-
-            self.MemberHasErrors = function (memberName) {
-                return !!self.FirstErrorForMember(memberName);
-            }
-
-            self.FirstErrorForMember = function (memberName) {
-                if (self.Model.Errors()) {
-                    var r = ko.utils.arrayFirst(self.Model.Errors(), function (error) {
-                        return error.MemberName() == memberName;
-                    });
-
-                    return r ? r.Message() : null;
-                }
             }
         }
 
@@ -147,10 +150,7 @@
 
         ko.applyBindings(vm, this[0]);
 
-        vm.UpdateOnChange = true;
-
-        //Set the client validation for the first step because it could be disabled and default is enabled.
-        SetClientValidation(vm.Model.CurrentStep().EnableClientValidation());
+        //vm.UpdateOnChange = true;
 
         return this;
     };

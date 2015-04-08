@@ -65,9 +65,9 @@ namespace MVC.Wizard.Controllers
         protected void RemoveValidationRulesFromOtherSteps(WizardViewModel model)
         {
             //StepIndex starts at 1
-            for (int i = model.Steps.Count - 1; i >= model.StepIndex; i--)
+            for (int i = model.StepNames.Count - 1; i >= model.StepIndex; i--)
             {
-                string prefix = string.Concat(model.Steps[i], ".");
+                string prefix = string.Concat(model.StepNames[i], ".");
                 foreach (KeyValuePair<string, ModelState> state in ModelState.Where(m => m.Key.StartsWith(prefix)).ToList())
                 {
                     ModelState.Remove(state.Key);

@@ -29,7 +29,7 @@
             <h3>Step <span data-bind="text: Model.StepIndex">1</span> of <span data-bind="text: Model.TotalSteps"></span>: <span data-bind="text: Model.CurrentStepName"></span></h3>
 
             <ul>
-                <li data-bind="visible: Model.StepIndex() == 1">
+                <li data-bind="wizardStep: 1">
                     <h3>@Html.DisplayNameFor(model => model.Step1)</h3>
 
                     <div class="form-group">
@@ -47,7 +47,7 @@
                     </div>
                 </li>
 
-                <li style="display: none;" data-bind="visible: Model.StepIndex() == 2">
+                <li style="display: none;" data-bind="wizardStep: 2">
                     <h3>@Html.DisplayNameFor(model => model.Step2)</h3>
 
                     <div class="form-group">
@@ -67,6 +67,14 @@
                     </div>
 
                     <div class="form-group">
+                        @Html.LabelFor(model => model.Step2.StringLength, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Step2.StringLength, new { data_bind = "value: Model.Step2.StringLength" })
+                            @Html.ValidationMessageFor(model => model.Step2.StringLength)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         @Html.LabelFor(model => model.Step2.Dynamic, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.TextBoxFor(model => model.Step2.Dynamic, new { data_bind = "value: Model.Step2.Dynamic" })
@@ -82,7 +90,7 @@
                     </div>
                 </li>
 
-                <li style="display: none;" data-bind="visible: Model.StepIndex() == 3">
+                <li style="display: none;" data-bind="wizardStep: 3">
                     <h3>@Html.DisplayNameFor(model => model.Step3)</h3>
 
                     <div class="form-group">
@@ -117,7 +125,7 @@
                     </div>
                 </li>
 
-                <li style="display: none;" data-bind="visible: Model.StepIndex() == 4">
+                <li style="display: none;" data-bind="wizardStep: 4">
                     <h3>@Html.DisplayNameFor(model => model.Step4)</h3>
 
                     <div class="form-group">
@@ -152,7 +160,7 @@
                     </div>
                 </li>
 
-                <li style="display: none;" data-bind="visible: Model.StepIndex() == 5">
+                <li style="display: none;" data-bind="wizardStep: 5">
                     <h3>@Html.DisplayNameFor(model => model.Step5)</h3>
 
                     <div class="form-group">
@@ -190,7 +198,7 @@
                     </div>
                 </li>
 
-                <li style="display: none;" data-bind="visible: Model.StepIndex() == 6">
+                <li style="display: none;" data-bind="wizardStep: 6">
                     <h3>@Html.DisplayNameFor(model => model.Step6)</h3>
                     Thank you for following this wizard.
                 </li>
@@ -204,8 +212,9 @@
 }
 
 @section Scripts {
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/knockout-3.0.0.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/knockout-3.0.0.debug.js"></script>
     <script src="~/Scripts/knockout.mapping-latest.js"></script>
     <script src="~/Scripts/wizard.js"></script>
 

@@ -9,7 +9,7 @@ namespace MVC.Wizard.ViewModels
     public class WizardViewModel
     {
         private List<string> _steps = null;
-        public List<string> Steps
+        public List<string> StepNames
         {
             get
             {
@@ -29,19 +29,22 @@ namespace MVC.Wizard.ViewModels
             }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WizardViewModel"/> class.
-        /// </summary>
-        public WizardViewModel()
-        {
-            StepIndex = 1;
-        }
-
+        private int _stepIndex = 1;
         /// <summary>
         /// Gets the step index of the wizard.
         /// </summary>
         /// <value>The index of the step.</value>
-        public int StepIndex { get; set; }
+        public int StepIndex
+        {
+            get
+            {
+                return _stepIndex;
+        }
+            set
+            {
+                _stepIndex = Math.Min(StepNames.Count, Math.Max(1, value));
+            }
+        }
 
         /// <summary>
         /// Gets the errors of the current step.
