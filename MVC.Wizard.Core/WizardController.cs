@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-//using MVC.Wizard.ModelBinders;
 using MVC.Wizard.ViewModels;
 
 namespace MVC.Wizard.Controllers
@@ -11,32 +11,31 @@ namespace MVC.Wizard.Controllers
     public class WizardController<T> : Controller where T : WizardViewModel
     {
         [HttpPost]
-        //public virtual JsonResult UpdateWizardStep([ModelBinder(typeof(WizardModelBinder))]WizardViewModel model)
-        public virtual JsonResult UpdateWizardStep(T model)
+        public virtual async Task<ActionResult> UpdateWizardStep(T model)
         {
             RemoveValidationRulesFromOtherSteps(model);
 
             Validate(ModelState, model);
-            ProcessToUpdate(model);
+
+            await ProcessToUpdate(model);
 
             return Json(model);
         }
 
         [HttpPost]
-        //public virtual JsonResult PreviousWizardStep([ModelBinder(typeof(WizardModelBinder))]WizardViewModel model)
-        public virtual JsonResult PreviousWizardStep(T model)
+        public virtual async Task<ActionResult> PreviousWizardStep(T model)
         {
             ModelState.Clear();
             model.Errors = null;
             model.StepIndex--;
-            ProcessToPrevious(model);
+
+            await ProcessToPrevious(model);
 
             return Json(model);
         }
 
         [HttpPost]
-        //public virtual JsonResult NextWizardStep([ModelBinder(typeof(WizardModelBinder))]WizardViewModel model)
-        public virtual JsonResult NextWizardStep(T model)
+        public async virtual Task<ActionResult> NextWizardStep(T model)
         {
             RemoveValidationRulesFromOtherSteps(model);
 
@@ -47,7 +46,7 @@ namespace MVC.Wizard.Controllers
 
                 try
                 {
-                    ProcessToNext(model);
+                    await ProcessToNext(model);
                 }
                 catch (ValidationException valEx)
                 {
@@ -63,7 +62,7 @@ namespace MVC.Wizard.Controllers
             return Json(model);
         }
 
-        private void RemoveValidationRulesFromOtherSteps(WizardViewModel model)
+        protected void RemoveValidationRulesFromOtherSteps(WizardViewModel model)
         {
             //StepIndex starts at 1
             for (int i = model.Steps.Count - 1; i >= model.StepIndex; i--)
@@ -76,22 +75,19 @@ namespace MVC.Wizard.Controllers
             }
         }
 
-        protected virtual void ProcessToUpdate(T model)
-        //protected virtual void ProcessToUpdate<T>(T model) where T : WizardViewModel
+        protected async virtual Task ProcessToUpdate(T model)
         {
         }
 
-        protected virtual void ProcessToPrevious(T model)
-        //protected virtual void ProcessToPrevious<T>(T model) where T : WizardViewModel
+        protected async virtual Task ProcessToPrevious(T model)
         {
         }
 
-        protected virtual void ProcessToNext(T model)
-        //protected virtual void ProcessToNext<T>(T model) where T : WizardViewModel
+        protected async virtual Task ProcessToNext(T model)
         {
         }
 
-        private bool Validate(ModelStateDictionary modelStateDict, WizardViewModel viewModel)
+        protected bool Validate(ModelStateDictionary modelStateDict, WizardViewModel viewModel)
         {
             viewModel.Errors = new List<WizardValidationResult>();
 

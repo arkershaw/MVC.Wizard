@@ -68,8 +68,11 @@
             });
 
             self.Model.CurrentStep = ko.computed(function () {
-                //return eval("self.Model.Step" + self.Model.StepIndex());
                 return eval("self.Model." + self.Model.Steps()[self.Model.StepIndex() - 1]);
+            });
+
+            self.Model.TotalSteps = ko.computed(function () {
+                return self.Model.Steps().length;
             });
 
             self.Model.Update = function (element) {
@@ -95,16 +98,14 @@
 
                 if ($(element).closest("form").valid()) {
                     if (self.UpdateOnChange) {
-                        self.RoundTrip("UpdateWizardStep");//, $(element).data("sender"));
+                        self.RoundTrip("UpdateWizardStep");
                     }
                 } else {
                     validator.focusInvalid();
                 }
             }
 
-            self.RoundTrip = function (action) {//, sender) {
-                //self.Model.Sender(sender);
-
+            self.RoundTrip = function (action) {
                 $.ajax({
                     url: options.url + action,
                     type: 'POST',
@@ -115,8 +116,6 @@
                         self.UpdateOnChange = false;
                         ko.mapping.fromJS(data, self.Model);
                         self.UpdateOnChange = true;
-
-                        //window.location.hash = self.Model.Hash();
 
                         SetServerErrors(data.Errors);
                         SetClientValidation(self.Model.CurrentStep().EnableClientValidation());

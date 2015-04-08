@@ -21,7 +21,6 @@ namespace MVC.Wizard.ViewModels
 
                     foreach (PropertyInfo property in properties)
         {
-                        //steps.Add((WizardStep)property.GetMethod.Invoke(this, null));
                         _steps.Add(property.Name);
                     }
                 }
