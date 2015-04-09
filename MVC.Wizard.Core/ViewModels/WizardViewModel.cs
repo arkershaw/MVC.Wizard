@@ -50,6 +50,11 @@ namespace MVC.Wizard.ViewModels
         /// Gets the errors of the current step.
         /// </summary>
         /// <value>The errors.</value>
-        public List<WizardValidationResult> Errors { get; internal set; }
+        public List<WizardValidationResult> Errors { get; protected set; }
+
+        public WizardViewModel()
+        {
+            Errors = new List<WizardValidationResult>();
+        }
     }
 }

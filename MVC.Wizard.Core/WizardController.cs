@@ -26,7 +26,7 @@ namespace MVC.Wizard.Controllers
         public async Task<ActionResult> PreviousWizardStep(T model)
         {
             ModelState.Clear();
-            model.Errors = null;
+            model.Errors.Clear();
             model.StepIndex--;
 
             await MoveToPreviousWizardStep(model);
@@ -41,7 +41,6 @@ namespace MVC.Wizard.Controllers
 
             if (Validate(ModelState, model))
             {
-                model.Errors = null;
                 model.StepIndex++;
 
                 try
@@ -50,11 +49,7 @@ namespace MVC.Wizard.Controllers
                 }
                 catch (ValidationException valEx)
                 {
-                    // Catch custom exceptions so decrease the stepindex
                     model.StepIndex--;
-
-                    // Return the errors to the client
-                    model.Errors = new List<WizardValidationResult>();                    
                     model.Errors.Add(new WizardValidationResult { MemberName = string.Empty, Message = valEx.ValidationResult.ErrorMessage });
                 }
             }
@@ -89,22 +84,18 @@ namespace MVC.Wizard.Controllers
 
         protected bool Validate(ModelStateDictionary modelStateDict, WizardViewModel viewModel)
         {
-            viewModel.Errors = new List<WizardValidationResult>();
+            viewModel.Errors.Clear();
 
             if (!modelStateDict.IsValid)
             {
-                // deze foreach voegt alle attribute errors toe
-                foreach (var modelState in modelStateDict)
+                foreach (KeyValuePair<string, ModelState> modelState in modelStateDict)
                 {
                     if (modelState.Value.Errors.Any())
-                    {
                         viewModel.Errors.Add(new WizardValidationResult { MemberName = modelState.Key, Message = modelState.Value.Errors[0].ErrorMessage });
                     }
                 }
-            }
 
             return modelStateDict.IsValid;
         }
-
     }
 }

@@ -23,14 +23,18 @@
     @Html.ValidationSummary(true)
     
     <div id="SampleWizardWrapper">
-        <div class="wizard-errors-summary"></div>
+        <div class="wizard-errors-summary">
+            <ul data-bind="foreach: Model.GeneralErrors, visible: Model.GeneralErrors().length > 0">
+                <li data-bind="text: Message"></li>
+            </ul>
+        </div>
 
         <div class="form-horizontal">
-            <h3>Step <span data-bind="text: Model.StepIndex">1</span> of <span data-bind="text: Model.TotalSteps"></span>: <span data-bind="text: Model.CurrentStepName"></span></h3>
+            <h3>Step <span data-bind="text: Model.StepIndex">1</span> of <span data-bind="text: Model.TotalSteps"></span>: <span data-bind="text: Model.CurrentStep().Name"></span></h3>
 
             <ul>
                 <li data-bind="wizardStep: 1">
-                    <h3>@Html.DisplayNameFor(model => model.Step1)</h3>
+                    <h3>@Model.Step1.Name</h3>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Step1.InitialWizardValue, new { @class = "control-label col-md-2" })
@@ -42,13 +46,13 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input data-bind="event: { click: Next.bind($data, $element) }" type="submit" value="Next" class="btn btn-default" />
+                            <input data-bind="event: { click: Next }" type="submit" value="Next" class="btn btn-default" />
                         </div>
                     </div>
                 </li>
 
                 <li style="display: none;" data-bind="wizardStep: 2">
-                    <h3>@Html.DisplayNameFor(model => model.Step2)</h3>
+                    <h3>@Model.Step2.Name</h3>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Step2.Required, new { @class = "control-label col-md-2" })
@@ -85,18 +89,18 @@
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input data-bind="event: { click: Previous }" type="submit" value="Previous" class="btn btn-default" />
-                            <input data-bind="event: { click: Next.bind($data, $element) }" type="submit" value="Next" class="btn btn-default" />
+                            <input data-bind="event: { click: Next }" type="submit" value="Next" class="btn btn-default" />
                         </div>
                     </div>
                 </li>
 
                 <li style="display: none;" data-bind="wizardStep: 3">
-                    <h3>@Html.DisplayNameFor(model => model.Step3)</h3>
+                    <h3>@Model.Step3.Name</h3>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Step3.RequiredDirectUpdate, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.Step3.RequiredDirectUpdate, new { data_bind = "value: Model.Step3.RequiredDirectUpdate, event { change: Update.bind($data, $element) }" })
+                            @Html.TextBoxFor(model => model.Step3.RequiredDirectUpdate, new { data_bind = "value: Model.Step3.RequiredDirectUpdate, event { change: Update }" })
                             @Html.ValidationMessageFor(model => model.Step3.RequiredDirectUpdate)
                         </div>
                     </div>
@@ -112,7 +116,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Step3.StringLengthDirectUpdate, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.Step3.StringLengthDirectUpdate, new { data_bind = "value: Model.Step3.StringLengthDirectUpdate, event { change: Update.bind($data, $element) }" })
+                            @Html.TextBoxFor(model => model.Step3.StringLengthDirectUpdate, new { data_bind = "value: Model.Step3.StringLengthDirectUpdate, event { change: Update }" })
                             @Html.ValidationMessageFor(model => model.Step3.StringLengthDirectUpdate)
                         </div>
                     </div>
@@ -120,13 +124,13 @@
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input data-bind="event: { click: Previous }" type="submit" value="Previous" class="btn btn-default" />
-                            <input data-bind="event: { click: Next.bind($data, $element) }" type="submit" value="Next" class="btn btn-default" />
+                            <input data-bind="event: { click: Next }" type="submit" value="Next" class="btn btn-default" />
                         </div>
                     </div>
                 </li>
 
                 <li style="display: none;" data-bind="wizardStep: 4">
-                    <h3>@Html.DisplayNameFor(model => model.Step4)</h3>
+                    <h3>@Model.Step4.Name</h3>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Step4.RequiredNoClientValidation, new { @class = "control-label col-md-2" })
@@ -147,7 +151,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Step4.HigherThan17AndRequired, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.Step4.HigherThan17AndRequired, new { data_bind = "value: Model.Step4.HigherThan17AndRequired, event { change: Update.bind($data, $element) }" })
+                            @Html.TextBoxFor(model => model.Step4.HigherThan17AndRequired, new { data_bind = "value: Model.Step4.HigherThan17AndRequired, event { change: Update }" })
                             @Html.ValidationMessageFor(model => model.Step4.HigherThan17AndRequired)
                         </div>
                     </div>
@@ -155,13 +159,13 @@
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input data-bind="event: { click: Previous }" type="submit" value="Previous" class="btn btn-default" />
-                            <input data-bind="event: { click: Next.bind($data, $element) }" type="submit" value="Next" class="btn btn-default" />
+                            <input data-bind="event: { click: Next }" type="submit" value="Next" class="btn btn-default" />
                         </div>
                     </div>
                 </li>
 
                 <li style="display: none;" data-bind="wizardStep: 5">
-                    <h3>@Html.DisplayNameFor(model => model.Step5)</h3>
+                    <h3>@Model.Step5.Name</h3>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Step2.NotRequired, new { @class = "control-label col-md-2" })
@@ -193,13 +197,13 @@
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input data-bind="event: { click: Previous }" type="submit" value="Previous" class="btn btn-default" />
-                            <input data-bind="event: { click: Next.bind($data, $element) }" type="submit" value="Finish" class="btn btn-default" />
+                            <input data-bind="event: { click: Next }" type="submit" value="Finish" class="btn btn-default" />
                         </div>
                     </div>
                 </li>
 
                 <li style="display: none;" data-bind="wizardStep: 6">
-                    <h3>@Html.DisplayNameFor(model => model.Step6)</h3>
+                    <h3>@Model.Step6.Name</h3>
                     Thank you for following this wizard.
                 </li>
             </ul>

@@ -6,6 +6,14 @@ namespace MVC.Wizard.ViewModels
 {
     public class WizardStep
     {
+        public virtual string Name
+        {
+            get
+            {
+                return GetType().Name;
+            }
+        }
+
         /// <summary>
         /// Gets a value indicating whether client validation is enabled.
         /// This must be set to true if:
@@ -18,7 +26,10 @@ namespace MVC.Wizard.ViewModels
         /// <value><c>true</c> if client validation must be enabled; otherwise, <c>false</c>.</value>
         public virtual bool EnableClientValidation
         {
-            get { return true; }
+            get
+            {
+                return true;
+            }
         }
 
     }

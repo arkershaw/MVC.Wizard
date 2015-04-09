@@ -18,50 +18,36 @@
             if (!step.EnableClientValidation())
                 $(element).find(':input').attr('data-val', 'false');
 
-            if (stepIndex == model.StepNames().length)
-            {
+            if (stepIndex === model.StepNames().length) {
                 var form = $(element).closest('form');
                 form.removeData('validator');
                 form.removeData('unobtrusiveValidation');
                 $.validator.unobtrusive.parse(form);
             }
         },
-
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             var stepIndex = ko.unwrap(valueAccessor());
             var model = bindingContext.$data.Model;
 
-            if (stepIndex == model.StepIndex())
+            if (stepIndex === model.StepIndex())
                 $(element).show();
             else
                 $(element).hide();
-
-            if (!model.CurrentStep().EnableClientValidation()) {
-                var form = $(element).closest('form');
-                var validator = form.validate();
-                form.find('.field-validation-error span').each(function () {
-                    validator.settings.success($(this));
-                });
-                validator.resetForm();
-            }
         }
     };
 
     $.fn.Wizard = function (options) {
+        function setServerErrors(errorsList) {
+            var form = $('#' + options.formId);
+            var validator = form.validate();
 
-        // Append ul with error messages in li that are not for a specific property
-        this.find('.wizard-errors-summary').append('<ul data-bind="foreach: Model.GeneralErrors, visible: Model.GeneralErrors().length > 0"><li data-bind="text: Message"></li></ul>');
+            form.find('.field-validation-error span').each(function () {
+                validator.settings.success($(this));
+            });
 
-        function SetServerErrors(errorsList) {
-            // Check if client side validation is enabled and if we have errors
-            if (errorsList) {
-                // Get the validator from the form
-                var validator = $("#" + options.formId).validate();
+            validator.resetForm();
 
-                // Remove old errors
-                validator.resetForm();
-
-                // Create new errors
+            if (errorsList && errorsList.length > 0) {
                 var errors = {};
                 for (var i = 0; i < errorsList.length; i++) {
                     if (errorsList[i].MemberName !== '') {
@@ -69,7 +55,6 @@
                     }
                 }
 
-                // Show errors
                 validator.showErrors(errors);
             }
         }
@@ -97,35 +82,34 @@
                 self.Update(element);
             }
 
-            self.Next = function (element) {
-                var validator = $(element).closest('form').validate();
-
-                if ($(element).closest('form').valid()) {
-                    self.RoundTrip('NextWizardStep');
-                }
-                else {
-                    validator.focusInvalid();
-                }
+            self.Next = function () {
+                self.ValidateAndPost('NextWizardStep');
             }
 
             self.Previous = function () {
-                self.RoundTrip('PreviousWizardStep');
+                self.PostForm('PreviousWizardStep');
             }
 
-            self.Update = function (element) {
-                var validator = $(element).closest('form').validate();
+            self.Update = function () {
+                if (self.UpdateOnChange)
+                    self.ValidateAndPost('UpdateWizardStep');
+                else
+                    self.ValidateAndPost();
+            }
 
-                if ($(element).closest('form').valid()) {
-                    //if (self.UpdateOnChange) {
-                    //    self.RoundTrip("UpdateWizardStep");
-                    //}
+            self.ValidateAndPost = function (action) {
+                var form = $('#' + options.formId);
+                var validator = form.validate();
+
+                if (form.valid()) {
+                    if (action)
+                        self.PostForm(action);
                 }
-                else {
+                else
                     validator.focusInvalid();
-                }
             }
 
-            self.RoundTrip = function (action) {
+            self.PostForm = function (action) {
                 $.ajax({
                     url: options.url + action,
                     type: 'POST',
@@ -133,11 +117,11 @@
                     contentType: 'application/json',
                     data: ko.toJSON(self.Model),
                     success: function (data) {
-                        //self.UpdateOnChange = false;
+                        self.UpdateOnChange = false;
                         ko.mapping.fromJS(data, self.Model);
-                        //self.UpdateOnChange = true;
+                        self.UpdateOnChange = true;
 
-                        SetServerErrors(data.Errors);
+                        setServerErrors(data.Errors);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
 
@@ -146,11 +130,11 @@
             }
         }
 
-        var vm = new ViewModel(options.model, options.mapping);
+        var viewModel = new ViewModel(options.model, options.mapping);
 
-        ko.applyBindings(vm, this[0]);
+        ko.applyBindings(viewModel, this[0]);
 
-        //vm.UpdateOnChange = true;
+        viewModel.UpdateOnChange = true;
 
         return this;
     };

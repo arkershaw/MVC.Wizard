@@ -24,22 +24,22 @@ namespace MVC.Wizard.Web.ViewModels
             Step1.InitialWizardValue = initialWizardValue;
         }
 
-        [WizardStep, Display(Name = "Custom title for step 1")]
+        [WizardStep]
         public SampleWizardViewModelStep1 Step1 { get; set; }
 
-        [WizardStep, Display(Name = "Custom title for step 2")]
+        [WizardStep]
         public SampleWizardViewModelStep2 Step2 { get; set; }
 
-        [WizardStep, Display(Name = "Custom title for step 3")]
+        [WizardStep]
         public SampleWizardViewModelStep3 Step3 { get; set; }
 
-        [WizardStep, Display(Name = "Custom title for step 4")]
+        [WizardStep]
         public SampleWizardViewModelStep4 Step4 { get; set; }
 
-        [WizardStep, Display(Name = "Custom title for step 5")]
+        [WizardStep]
         public SampleWizardViewModelStep5 Step5 { get; set; }
 
-        [WizardStep, Display(Name = "Custom title for step 6")]
+        [WizardStep]
         public SampleWizardViewModelStep6 Step6 { get; set; }
 
     }
@@ -52,6 +52,14 @@ namespace MVC.Wizard.Web.ViewModels
 
     public class SampleWizardViewModelStep2 : WizardStep
     {
+        public override string Name
+        {
+            get
+            {
+                return "Custom title for step 2";
+            }
+        }
+
         [Required]
         public int? Required { get; set; }
 
