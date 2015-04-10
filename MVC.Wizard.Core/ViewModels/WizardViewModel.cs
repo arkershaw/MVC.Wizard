@@ -31,7 +31,7 @@ namespace MVC.Wizard.ViewModels
 
         private int _stepIndex = 1;
         /// <summary>
-        /// Gets the step index of the wizard.
+        /// Gets/sets the step index of the wizard.
         /// </summary>
         /// <value>The index of the step.</value>
         public int StepIndex

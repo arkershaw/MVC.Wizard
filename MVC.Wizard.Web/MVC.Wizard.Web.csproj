@@ -149,6 +149,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\SampleWizard2Controller.cs" />
     <Compile Include="Controllers\SampleWizardController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -165,6 +166,7 @@
     <Content Include="Scripts\wizard.min.js.map">
       <DependentUpon>wizard.min.js</DependentUpon>
     </Content>
+    <Content Include="Views\SampleWizard2\Sample.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

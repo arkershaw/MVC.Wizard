@@ -21,7 +21,7 @@
     @Html.AntiForgeryToken()
 
     @Html.ValidationSummary(true)
-    
+
     <div id="SampleWizardWrapper">
         <div class="wizard-errors-summary">
             <ul data-bind="foreach: Model.GeneralErrors, visible: Model.GeneralErrors().length > 0">
@@ -104,7 +104,7 @@
                             @Html.ValidationMessageFor(model => model.Step3.RequiredDirectUpdate)
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         @Html.LabelFor(model => model.Step3.MyProperty, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">

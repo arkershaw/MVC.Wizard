@@ -83,16 +83,16 @@
             }
 
             self.Next = function () {
-                self.ValidateAndPost('NextWizardStep');
+                self.ValidateAndPost(options.nextAction || 'NextWizardStep');
             }
 
             self.Previous = function () {
-                self.PostForm('PreviousWizardStep');
+                self.PostForm(options.previousAction || 'PreviousWizardStep');
             }
 
             self.Update = function () {
                 if (self.UpdateOnChange)
-                    self.ValidateAndPost('UpdateWizardStep');
+                    self.ValidateAndPost(options.updateAction || 'UpdateWizardStep');
                 else
                     self.ValidateAndPost();
             }

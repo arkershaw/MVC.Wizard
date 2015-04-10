@@ -8,7 +8,7 @@ using MVC.Wizard.Web.ViewModels;
 
 namespace MVC.Wizard.Web.Controllers
 {
-    public class SampleWizardController : WizardController<SampleWizardViewModel>
+    public class SampleWizardController : WizardControllerBase<SampleWizardViewModel>
     {
         public ActionResult Sample()
         {
@@ -16,23 +16,21 @@ namespace MVC.Wizard.Web.Controllers
             return View(vm);
         }
 
-        protected override async Task UpdateCurrentWizardStep(SampleWizardViewModel model)
+        protected override void DoUpdateWizardStep(SampleWizardViewModel model)
         {
             // Custom code when the current step is updated
         }
 
-        protected override async Task MoveToNextWizardStep(SampleWizardViewModel model)
+        protected override void DoPreviousWizardStep(SampleWizardViewModel model)
+        {
+            // Custom code on moving to the previous step
+        }
+
+        protected override void DoNextWizardStep(SampleWizardViewModel model)
         {
             // Custom code on moving to the next step
             if (model.StepIndex == 2)
-            {
                 model.Step2.Dynamic = "Dynamic";
-            }
-        }
-
-        protected override async Task MoveToPreviousWizardStep(SampleWizardViewModel model)
-        {
-            // Custom code on moving to the previous step
         }
     }
 }
