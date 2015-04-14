@@ -23,7 +23,7 @@ namespace MVC.Wizard.ViewModels
                     IEnumerable<PropertyInfo> properties = this.GetType().GetProperties().Where(p => Attribute.IsDefined(p, typeof(WizardStepAttribute)));
 
                     foreach (PropertyInfo property in properties)
-        {
+                    {
                         _steps.Add(property.Name);
                     }
                 }
@@ -42,7 +42,7 @@ namespace MVC.Wizard.ViewModels
             get
             {
                 return _stepIndex;
-        }
+            }
             set
             {
                 //_stepIndex = Math.Min(StepNames.Count, Math.Max(1, value));

@@ -19,7 +19,7 @@ namespace MVC.Wizard.Web.Controllers
         [HttpPost]
         public JsonResult UpdateWizardStep(SampleWizardViewModel model)
         {
-            if (WizardHelper.UpdateWizardStep(ModelState, model))
+            if (model.UpdateWizardStep(ModelState))
             {
                 // Custom code when the current step is updated
             }
@@ -30,7 +30,7 @@ namespace MVC.Wizard.Web.Controllers
         [HttpPost]
         public JsonResult PreviousWizardStep(SampleWizardViewModel model)
         {
-            if (WizardHelper.PreviousWizardStep(ModelState, model))
+            if (model.PreviousWizardStep(ModelState))
             {
                 // Custom code on moving to the previous step
             }
@@ -41,7 +41,7 @@ namespace MVC.Wizard.Web.Controllers
         [HttpPost]
         public JsonResult NextWizardStep(SampleWizardViewModel model)
         {
-            if (WizardHelper.NextWizardStep(ModelState, model))
+            if (model.NextWizardStep(ModelState))
             {
                 // Custom code on moving to the next step
 
