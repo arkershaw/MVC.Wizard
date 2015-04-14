@@ -13,7 +13,7 @@ namespace MVC.Wizard.Controllers
         [HttpPost]
         public JsonResult UpdateWizardStep(T model)
         {
-            if (WizardHelper.UpdateWizardStep(ModelState, model))
+            if (model.UpdateWizardStep(ModelState))
             {
                 DoUpdateWizardStep(model);
             }
@@ -24,7 +24,7 @@ namespace MVC.Wizard.Controllers
         [HttpPost]
         public JsonResult PreviousWizardStep(T model)
         {
-            if (WizardHelper.PreviousWizardStep(ModelState, model))
+            if (model.PreviousWizardStep(ModelState))
             {
                 DoPreviousWizardStep(model);
             }
@@ -35,7 +35,7 @@ namespace MVC.Wizard.Controllers
         [HttpPost]
         public JsonResult NextWizardStep(T model)
         {
-            if (WizardHelper.NextWizardStep(ModelState, model))
+            if (model.NextWizardStep(ModelState))
             {
                 try
                 {
@@ -43,8 +43,7 @@ namespace MVC.Wizard.Controllers
                 }
                 catch (ValidationException valEx)
                 {
-                    model.StepIndex--;
-                    model.Errors.Add(new WizardValidationResult { MemberName = string.Join(",", valEx.ValidationResult.MemberNames), Message = valEx.ValidationResult.ErrorMessage });
+                    model.AddError(valEx);
                 }
             }
 
@@ -61,7 +60,7 @@ namespace MVC.Wizard.Controllers
         [HttpPost]
         public async Task<JsonResult> UpdateWizardStep(T model)
         {
-            if (WizardHelper.UpdateWizardStep(ModelState, model))
+            if (model.UpdateWizardStep(ModelState))
             {
                 await DoUpdateWizardStep(model);
             }
@@ -72,7 +71,7 @@ namespace MVC.Wizard.Controllers
         [HttpPost]
         public async Task<JsonResult> PreviousWizardStep(T model)
         {
-            if (WizardHelper.PreviousWizardStep(ModelState, model))
+            if (model.PreviousWizardStep(ModelState))
             {
                 await DoPreviousWizardStep(model);
             }
@@ -83,7 +82,7 @@ namespace MVC.Wizard.Controllers
         [HttpPost]
         public async Task<JsonResult> NextWizardStep(T model)
         {
-            if (WizardHelper.NextWizardStep(ModelState, model))
+            if (model.NextWizardStep(ModelState))
             {
                 try
                 {
@@ -91,8 +90,7 @@ namespace MVC.Wizard.Controllers
                 }
                 catch (ValidationException valEx)
                 {
-                    model.StepIndex--;
-                    model.Errors.Add(new WizardValidationResult { MemberName = string.Join(",", valEx.ValidationResult.MemberNames), Message = valEx.ValidationResult.ErrorMessage });
+                    model.AddError(valEx);
                 }
             }
 

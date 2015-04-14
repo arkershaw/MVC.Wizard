@@ -21,8 +21,10 @@
             if (stepIndex === model.StepNames().length) {
                 var form = $(element).closest('form');
                 form.removeData('validator');
-                form.removeData('unobtrusiveValidation');
-                $.validator.unobtrusive.parse(form);
+                if ($.validator.unobtrusive) {
+	                form.removeData('unobtrusiveValidation');
+	                $.validator.unobtrusive.parse(form);
+                }
             }
         },
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {

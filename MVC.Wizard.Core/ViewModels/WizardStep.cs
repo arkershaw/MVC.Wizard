@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+//using System.Threading.Tasks;
 
 namespace MVC.Wizard.ViewModels
 {
-    public class WizardStep
+    public abstract class WizardStep
     {
         public virtual string Name
         {
@@ -32,6 +33,8 @@ namespace MVC.Wizard.ViewModels
             }
         }
 
+        //public async virtual Task Load() { }
+        //public async virtual Task Unload() { }
+        //public async virtual Task Update() { }
     }
-
 }

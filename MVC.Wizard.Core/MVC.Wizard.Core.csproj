@@ -87,7 +87,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\WizardStepAttribute.cs" />
     <Compile Include="Controllers\WizardControllerBase.cs" />
-    <Compile Include="WizardHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MVC.Wizard.snk" />
